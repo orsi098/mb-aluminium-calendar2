@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB Alumínium 2026 — Naptár</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Barlow+Condensed:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange:        #e87722;
+    --orange-dark:   #c0611a;
+    --orange-light:  #fff4ec;
+    --orange-mid:    #fde8d0;
+    --bg:            #f5f6f8;
+    --surface:       #ffffff;
+    --surface2:      #f0f2f5;
+    --border:        #e2e5eb;
+    --border-strong: #c8cdd8;
+    --text:          #111827;
+    --text2:         #4b5563;
+    --text3:         #9ca3af;
+    --s-beerkezett:  #2563eb;
+    --s-gyartasban:  #e87722;
+    --s-keszen:      #16a34a;
+    --s-kiszamlazva: #7c3aed;
+    --font-body:     'Barlow', sans-serif;
+    --font-mono:     'JetBrains Mono', monospace;
+    --font-display:  'Barlow Condensed', sans-serif;
+    --shadow-sm:     0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md:     0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-lg:     0 10px 30px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.06);
+    --shadow-orange: 0 8px 24px rgba(232,119,34,0.25);
+    --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky; top: 0; z-index: 200;
+    background: #fff;
+    border-bottom: 3px solid var(--orange);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .logo { display: flex; align-items: center; gap: 14px; }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--orange); border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .logo-text {
+    font-family: var(--font-display); font-size: 1.45rem;
+    font-weight: 700; letter-spacing: 0.5px; color: var(--text); text-transform: uppercase;
+  }
+  .logo-text span { color: var(--orange); }
+  .logo-sub {
+    font-size: 0.72rem; font-weight: 500; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 1.5px; margin-top: 1px;
+  }
+  .header-right { display: flex; align-items: center; gap: 0.75rem; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 16px; border-radius: var(--r-md);
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text2); font-family: var(--font-body); font-size: 0.85rem;
+    font-weight: 600; cursor: pointer; text-decoration: none;
+    transition: all 0.18s;
+  }
+  .back-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-light); }
+
+  /* ── CALENDAR TOOLBAR ── */
+  .cal-toolbar {
+    max-width: 1440px; margin: 0 auto;
+    padding: 1.25rem 1.5rem 0.75rem;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .cal-nav { display: flex; align-items: center; gap: 4px; }
+  .nav-btn {
+    width: 36px; height: 36px; border-radius: var(--r-md);
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text2); cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-light); }
+  .today-btn {
+    padding: 8px 16px; border-radius: var(--r-md);
+    border: 1.5px solid var(--border); background: var(--surface);
+    color: var(--text2); font-family: var(--font-body); font-size: 0.85rem;
+    font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .today-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .cal-title {
+    font-family: var(--font-display); font-size: 1.6rem; font-weight: 800;
+    color: var(--text); letter-spacing: 0.3px; min-width: 200px;
+  }
+  .cal-title span { color: var(--orange); }
+  .view-switcher { display: flex; border: 1.5px solid var(--border); border-radius: var(--r-md); overflow: hidden; margin-left: auto; }
+  .view-btn {
+    padding: 8px 18px; border: none; background: var(--surface);
+    color: var(--text2); font-family: var(--font-body); font-size: 0.85rem;
+    font-weight: 600; cursor: pointer; transition: all 0.15s;
+    border-right: 1.5px solid var(--border);
+  }
+  .view-btn:last-child { border-right: none; }
+  .view-btn.active { background: var(--orange); color: #fff; }
+  .view-btn:not(.active):hover { background: var(--surface2); color: var(--text); }
+
+  /* ── LEGEND ── */
+  .cal-legend {
+    max-width: 1440px; margin: 0 auto;
+    padding: 0 1.5rem 0.75rem;
+    display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
+  }
+  .legend-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: var(--text2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── MAIN CALENDAR AREA ── */
+  .cal-wrap { max-width: 1440px; margin: 0 auto; padding: 0 1.5rem 2rem; }
+
+  /* ── MONTH VIEW ── */
+  .month-grid {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-md);
+  }
+  .month-header {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    background: #f8f9fb; border-bottom: 2px solid var(--border);
+  }
+  .month-day-header {
+    padding: 10px 12px; text-align: center;
+    font-family: var(--font-display); font-size: 0.7rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3);
+  }
+  .month-body { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .month-cell {
+    min-height: 110px; border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); padding: 6px;
+    background: var(--surface); position: relative;
+    transition: background 0.1s;
+  }
+  .month-cell:nth-child(7n) { border-right: none; }
+  .month-cell.other-month { background: #fafbfc; }
+  .month-cell.other-month .day-num { color: var(--text3); }
+  .month-cell.today { background: #fff8f3; }
+  .month-cell.today .day-num {
+    background: var(--orange); color: #fff; border-radius: 50%;
+    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .day-num {
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+    color: var(--text2); margin-bottom: 4px; width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .month-events { display: flex; flex-direction: column; gap: 2px; }
+  .month-event {
+    padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; gap: 4px;
+    transition: opacity 0.15s, transform 0.1s; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  }
+  .month-event:hover { opacity: 0.85; transform: translateX(1px); }
+  .more-events {
+    font-size: 0.68rem; color: var(--text3); font-weight: 600;
+    padding: 1px 4px; cursor: pointer;
+  }
+  .more-events:hover { color: var(--orange); }
+
+  /* ── WEEK VIEW ── */
+  .week-grid {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-md);
+  }
+  .week-header {
+    display: grid; grid-template-columns: 60px repeat(7, 1fr);
+    background: #f8f9fb; border-bottom: 2px solid var(--border);
+  }
+  .week-time-gutter { border-right: 1px solid var(--border); }
+  .week-day-col-header {
+    padding: 10px 8px; text-align: center; border-right: 1px solid var(--border);
+  }
+  .week-day-col-header:last-child { border-right: none; }
+  .week-day-name {
+    font-family: var(--font-display); font-size: 0.68rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; color: var(--text3);
+  }
+  .week-day-num {
+    font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--text);
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    margin: 4px auto 0; border-radius: 50%;
+  }
+  .week-day-num.today-num { background: var(--orange); color: #fff; }
+  .week-body {
+    display: grid; grid-template-columns: 60px repeat(7, 1fr);
+    max-height: 620px; overflow-y: auto;
+  }
+  .week-time-col { border-right: 1px solid var(--border); }
+  .week-hour-label {
+    height: 52px; display: flex; align-items: flex-start; justify-content: flex-end;
+    padding: 4px 8px 0 0; font-family: var(--font-mono); font-size: 0.65rem;
+    color: var(--text3); font-weight: 500;
+  }
+  .week-day-events-col {
+    border-right: 1px solid var(--border); position: relative; min-height: 624px;
+  }
+  .week-day-events-col:last-child { border-right: none; }
+  .week-day-events-col.today-col { background: #fff8f3; }
+  .week-hour-line {
+    height: 52px; border-bottom: 1px solid #f0f2f5;
+    position: relative;
+  }
+  .week-event-block {
+    position: absolute; left: 2px; right: 2px;
+    border-radius: 6px; padding: 4px 6px; cursor: pointer;
+    font-size: 0.72rem; font-weight: 700;
+    overflow: hidden; z-index: 2;
+    transition: opacity 0.15s; box-shadow: var(--shadow-sm);
+  }
+  .week-event-block:hover { opacity: 0.85; }
+  .week-all-day-row {
+    display: grid; grid-template-columns: 60px repeat(7, 1fr);
+    border-bottom: 2px solid var(--border); background: #fafbfc; min-height: 36px;
+  }
+  .week-all-day-label {
+    border-right: 1px solid var(--border); display: flex; align-items: center;
+    justify-content: flex-end; padding: 4px 8px;
+    font-size: 0.6rem; color: var(--text3); font-weight: 700; text-transform: uppercase;
+  }
+  .week-all-day-cell { border-right: 1px solid var(--border); padding: 3px; display: flex; flex-direction: column; gap: 2px; }
+  .week-all-day-cell:last-child { border-right: none; }
+
+  /* ── DAY VIEW ── */
+  .day-view-wrap {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-md);
+  }
+  .day-header {
+    padding: 1rem 1.5rem; border-bottom: 2px solid var(--border);
+    background: #f8f9fb; display: flex; align-items: center; gap: 12px;
+  }
+  .day-header-num {
+    font-family: var(--font-display); font-size: 3rem; font-weight: 800;
+    line-height: 1; color: var(--orange);
+  }
+  .day-header-info { display: flex; flex-direction: column; }
+  .day-header-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; }
+  .day-header-date { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text3); }
+  .day-body { display: flex; }
+  .day-time-col { width: 70px; flex-shrink: 0; border-right: 1px solid var(--border); }
+  .day-events-col { flex: 1; position: relative; min-height: 624px; max-height: 624px; overflow-y: auto; }
+  .day-hour-row { height: 60px; border-bottom: 1px solid #f0f2f5; position: relative; }
+  .day-hour-label {
+    height: 60px; display: flex; align-items: flex-start; justify-content: flex-end;
+    padding: 6px 10px 0 0; font-family: var(--font-mono); font-size: 0.68rem;
+    color: var(--text3); font-weight: 500;
+  }
+  .day-event-block {
+    position: absolute; left: 8px; right: 8px;
+    border-radius: 8px; padding: 6px 10px; cursor: pointer;
+    overflow: hidden; z-index: 2; box-shadow: var(--shadow-sm);
+    transition: opacity 0.15s;
+  }
+  .day-event-block:hover { opacity: 0.85; }
+  .day-order-list { padding: 1rem 1.5rem; }
+  .day-order-card {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px; border: 1.5px solid var(--border); border-radius: var(--r-md);
+    margin-bottom: 8px; cursor: pointer; transition: all 0.15s; background: var(--surface);
+  }
+  .day-order-card:hover { border-color: var(--orange); box-shadow: var(--shadow-md); transform: translateX(2px); }
+  .day-order-color-bar { width: 4px; border-radius: 2px; flex-shrink: 0; align-self: stretch; }
+
+  /* ── ORDER DETAIL POPUP ── */
+  .popup-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 500;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .popup-overlay.open { opacity: 1; pointer-events: all; }
+  .popup {
+    background: var(--surface); border-radius: var(--r-xl); padding: 0;
+    width: 100%; max-width: 520px; box-shadow: var(--shadow-lg);
+    overflow: hidden; transform: translateY(16px) scale(0.97);
+    transition: transform 0.2s ease;
+  }
+  .popup-overlay.open .popup { transform: translateY(0) scale(1); }
+  .popup-header {
+    padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  }
+  .popup-order-id {
+    font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700;
+    color: var(--orange); background: var(--orange-light); padding: 4px 12px;
+    border-radius: var(--r-sm); display: inline-block;
+  }
+  .popup-close {
+    width: 32px; height: 32px; border-radius: var(--r-sm);
+    border: 1.5px solid var(--border); background: transparent;
+    color: var(--text2); cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; flex-shrink: 0;
+  }
+  .popup-close:hover { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
+  .popup-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .popup-row { display: flex; gap: 1rem; }
+  .popup-field { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+  .popup-field-label {
+    font-family: var(--font-display); font-size: 0.6rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3);
+  }
+  .popup-field-value { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+  .popup-field-value.mono { font-family: var(--font-mono); font-size: 0.82rem; }
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 11px; border-radius: 20px; font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.6px; font-family: var(--font-display);
+    background: color-mix(in srgb, var(--c) 12%, transparent);
+    color: var(--c); border: 1.5px solid color-mix(in srgb, var(--c) 28%, transparent);
+    white-space: nowrap;
+  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
+  .popup-pdfs { border-top: 1px solid var(--border); padding: 1rem 1.5rem; }
+  .popup-pdfs-label {
+    font-family: var(--font-display); font-size: 0.6rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3); margin-bottom: 8px;
+  }
+  .pdf-list-item {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+    border: 1.5px solid var(--border); border-radius: var(--r-md);
+    cursor: pointer; transition: all 0.15s; margin-bottom: 5px;
+  }
+  .pdf-list-item:hover { border-color: var(--orange); background: var(--orange-light); }
+  .pdf-list-item:last-child { margin-bottom: 0; }
+  .pdf-icon-wrap {
+    width: 30px; height: 30px; border-radius: var(--r-sm);
+    background: #fef2f2; display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+  .pdf-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+  .pdf-size { font-size: 0.7rem; color: var(--text3); font-family: var(--font-mono); }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center; padding: 4rem 2rem; color: var(--text3);
+    font-size: 0.9rem;
+  }
+  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+  /* ── PDF VIEWER OVERLAY ── */
+  .pdf-viewer-overlay {
+    position: fixed; inset: 0; background: #1a1a2e; z-index: 700;
+    display: flex; flex-direction: column;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .pdf-viewer-overlay.open { opacity: 1; pointer-events: all; }
+  .pdf-viewer-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; background: #16213e; border-bottom: 1px solid #0f3460;
+    flex-shrink: 0;
+  }
+  .pdf-viewer-title { font-family: var(--font-mono); font-size: 0.88rem; color: #fff; font-weight: 500; }
+  .pdf-viewer-close {
+    width: 32px; height: 32px; border-radius: var(--r-sm);
+    border: 1px solid #0f3460; background: transparent; color: #fff;
+    cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;
+  }
+  .pdf-viewer-close:hover { background: rgba(255,255,255,0.1); }
+  iframe.pdf-frame { flex: 1; border: none; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🏗️</div>
+    <div>
+      <div class="logo-text">MB <span>Alumínium</span></div>
+      <div class="logo-sub">Megrendelések Naptára</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <a href="../index.html" class="back-btn">← Vissza a főoldalra</a>
+  </div>
+</header>
+
+<!-- CALENDAR TOOLBAR -->
+<div class="cal-toolbar">
+  <div class="cal-nav">
+    <button class="nav-btn" onclick="navPrev()" title="Előző">‹</button>
+    <button class="today-btn" onclick="navToday()">Ma</button>
+    <button class="nav-btn" onclick="navNext()" title="Következő">›</button>
+  </div>
+  <div class="cal-title" id="calTitle">—</div>
+  <div class="view-switcher">
+    <button class="view-btn active" id="vbMonth" onclick="setView('month')">Hónap</button>
+    <button class="view-btn" id="vbWeek" onclick="setView('week')">Hét</button>
+    <button class="view-btn" id="vbDay" onclick="setView('day')">Nap</button>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="cal-legend">
+  <span class="legend-label">Státusz:</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#2563eb"></span>Beérkezett</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#e87722"></span>Gyártásban</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#16a34a"></span>Kész</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#7c3aed"></span>Kiszámlázva</span>
+  <span class="legend-item" style="margin-left:8px"><span style="font-size:0.8rem">📎</span> PDF csatolva</span>
+</div>
+
+<!-- CALENDAR BODY -->
+<div class="cal-wrap">
+  <div id="calBody"></div>
+</div>
+
+<!-- ORDER DETAIL POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopupOnOverlay(event)">
+  <div class="popup">
+    <div class="popup-header">
+      <div>
+        <div class="popup-order-id" id="popOrderId">—</div>
+        <div style="margin-top:6px;font-size:0.72rem;color:var(--text3);font-family:var(--font-mono)" id="popDate">—</div>
+      </div>
+      <button class="popup-close" onclick="closePopup()">✕</button>
+    </div>
+    <div class="popup-body">
+      <div class="popup-row">
+        <div class="popup-field">
+          <div class="popup-field-label">Megrendelő</div>
+          <div class="popup-field-value" id="popCustomer">—</div>
+        </div>
+        <div class="popup-field">
+          <div class="popup-field-label">Státusz</div>
+          <div id="popStatus">—</div>
+        </div>
+      </div>
+      <div class="popup-row">
+        <div class="popup-field">
+          <div class="popup-field-label">Cég</div>
+          <div class="popup-field-value" id="popCompany">—</div>
+        </div>
+        <div class="popup-field">
+          <div class="popup-field-label">Típus</div>
+          <div class="popup-field-value" id="popType">—</div>
+        </div>
+      </div>
+      <div class="popup-row">
+        <div class="popup-field">
+          <div class="popup-field-label">Helyszín</div>
+          <div class="popup-field-value" id="popCity">—</div>
+        </div>
+        <div class="popup-field">
+          <div class="popup-field-label">Határidő</div>
+          <div class="popup-field-value mono" id="popDeadline">—</div>
+        </div>
+      </div>
+      <div class="popup-field" id="popNoteWrap" style="display:none">
+        <div class="popup-field-label">Megjegyzés</div>
+        <div class="popup-field-value" id="popNote" style="font-size:0.83rem;color:var(--text2);line-height:1.5">—</div>
+      </div>
+    </div>
+    <div class="popup-pdfs" id="popPdfsSection" style="display:none">
+      <div class="popup-pdfs-label">📎 Csatolmányok</div>
+      <div id="popPdfsList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PDF VIEWER -->
+<div class="pdf-viewer-overlay" id="pdfViewerOverlay">
+  <div class="pdf-viewer-header">
+    <span class="pdf-viewer-title" id="pdfViewerTitle">—</span>
+    <button class="pdf-viewer-close" onclick="closePdfViewer()">✕</button>
+  </div>
+  <iframe class="pdf-frame" id="pdfFrame"></iframe>
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const SB_URL    = 'https://bvhltjxxlsqtfbseoecw.supabase.co';
+const SB_KEY    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2aGx0anh4bHNxdGZic2VvZWN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNDMxNzksImV4cCI6MjA4ODYxOTE3OX0.iEDxSOeE4-mHjNvrXs4pWEstRsSZ5C9QtxE4o-F0W7Q';
+const SB_BUCKET = 'pdfs';
+const SB_HDR    = { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY };
+const SB_STORAGE_HDR = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY };
+
+const DEFAULT_STATUSES = [
+  { key: 'Beérkezett', color: '#2563eb', icon: '📥' },
+  { key: 'Gyártásban', color: '#e87722', icon: '⚙️' },
+  { key: 'Kész',       color: '#16a34a', icon: '✅' },
+  { key: 'Kiszámlázva',color: '#7c3aed', icon: '🧾' },
+];
+let STATUSES = JSON.parse(localStorage.getItem('mb_statuses') || 'null') || DEFAULT_STATUSES;
+
+function getOrders() {
+  try {
+    return JSON.parse(localStorage.getItem('aluver_orders') || '[]') || [];
+  } catch { return []; }
+}
+
+function getPdfMeta(orderId) {
+  try {
+    const raw = localStorage.getItem('aluver_pdfmeta_' + orderId);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function statusColor(s) {
+  const found = STATUSES.find(x => x.key === s);
+  return found ? found.color : '#9ca3af';
+}
+function statusIcon(s) {
+  const found = STATUSES.find(x => x.key === s);
+  return found ? found.icon : '•';
+}
+
+// ─── STATE ──────────────────────────────────────────────────────────────────
+
+let currentView = 'month';
+let currentDate = new Date();
+currentDate.setHours(0,0,0,0);
+
+const HU_DAYS_LONG  = ['Vasárnap','Hétfő','Kedd','Szerda','Csütörtök','Péntek','Szombat'];
+const HU_DAYS_SHORT = ['V','H','K','Sze','Cs','P','Sz'];
+// Week starts Monday: Mon=0,...,Sun=6
+const HU_DAYS_MON   = ['Hétfő','Kedd','Szerda','Csütörtök','Péntek','Szombat','Vasárnap'];
+const HU_DAYS_MON_S = ['H','K','Sze','Cs','P','Sz','V'];
+const HU_MONTHS     = ['Január','Február','Március','Április','Május','Június','Július','Augusztus','Szeptember','Október','November','December'];
+
+// Day-of-week: Monday=0
+function dowMon(date) { return (date.getDay() + 6) % 7; }
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+
+function navPrev() {
+  if (currentView === 'month') {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    currentDate.setDate(1);
+  } else if (currentView === 'week') {
+    currentDate.setDate(currentDate.getDate() - 7);
+  } else {
+    currentDate.setDate(currentDate.getDate() - 1);
+  }
+  render();
+}
+
+function navNext() {
+  if (currentView === 'month') {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    currentDate.setDate(1);
+  } else if (currentView === 'week') {
+    currentDate.setDate(currentDate.getDate() + 7);
+  } else {
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  render();
+}
+
+function navToday() {
+  currentDate = new Date();
+  currentDate.setHours(0,0,0,0);
+  render();
+}
+
+function setView(v) {
+  currentView = v;
+  ['month','week','day'].forEach(x => document.getElementById('vb' + x.charAt(0).toUpperCase() + x.slice(1)).classList.toggle('active', x === v));
+  render();
+}
+
+// ─── HELPERS ────────────────────────────────────────────────────────────────
+
+function dateKey(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function isToday(d) {
+  const t = new Date(); t.setHours(0,0,0,0);
+  return dateKey(d) === dateKey(t);
+}
+
+function formatHuDate(dateStr) {
+  if (!dateStr) return '—';
+  const [y, m, d] = dateStr.split('-');
+  return `${y}. ${HU_MONTHS[parseInt(m)-1]} ${parseInt(d)}.`;
+}
+
+function buildOrdersByDate(orders) {
+  // Sort each day's orders by their creation date (the `date` field on the order)
+  // The key is the order's `date` field — e.g. "2026-03-13"
+  const map = {};
+  // Sort orders by date ascending so earliest created appear first
+  const sorted = [...orders].sort((a, b) => {
+    const da = a.date || '0000-00-00';
+    const db = b.date || '0000-00-00';
+    return da < db ? -1 : da > db ? 1 : 0;
+  });
+  for (const o of sorted) {
+    if (!o.date) continue;
+    if (!map[o.date]) map[o.date] = [];
+    map[o.date].push(o);
+  }
+  return map;
+}
+
+function eventStyle(status) {
+  const c = statusColor(status);
+  return `background: color-mix(in srgb, ${c} 15%, white); color: ${c}; border-left: 3px solid ${c};`;
+}
+
+function blockStyle(status) {
+  const c = statusColor(status);
+  return `background: color-mix(in srgb, ${c} 18%, white); color: ${c}; border-left: 3px solid ${c};`;
+}
+
+function renderEventPill(order, showPdf = true) {
+  const pdfs = getPdfMeta(order.id);
+  const hasPdf = pdfs.length > 0;
+  const icon = statusIcon(order.status);
+  return `<div class="month-event" style="${eventStyle(order.status)}" onclick="openPopup('${order.id}')" title="${order.id} — ${order.customer}">
+    <span style="flex-shrink:0">${icon}</span>
+    <span style="overflow:hidden;text-overflow:ellipsis">${order.id}${order.customer ? ' ' + order.customer.split(' ')[0] : ''}</span>
+    ${hasPdf && showPdf ? '<span style="flex-shrink:0;font-size:0.65rem">📎</span>' : ''}
+  </div>`;
+}
+
+// ─── MONTH VIEW ──────────────────────────────────────────────────────────────
+
+function renderMonth() {
+  const orders = getOrders();
+  const byDate = buildOrdersByDate(orders);
+  const y = currentDate.getFullYear(), m = currentDate.getMonth();
+  document.getElementById('calTitle').innerHTML = `<span>${HU_MONTHS[m]}</span> ${y}`;
+
+  const firstDay = new Date(y, m, 1);
+  const lastDay  = new Date(y, m+1, 0);
+  // Monday-based: find Monday before or on first day
+  const startDow = dowMon(firstDay); // 0=Mon
+  const gridStart = new Date(firstDay);
+  gridStart.setDate(gridStart.getDate() - startDow);
+
+  let cells = '';
+  let cursor = new Date(gridStart);
+  const totalCells = Math.ceil((startDow + lastDay.getDate()) / 7) * 7;
+
+  for (let i = 0; i < totalCells; i++) {
+    const dk = dateKey(cursor);
+    const dayOrders = byDate[dk] || [];
+    const isOther = cursor.getMonth() !== m;
+    const isTod = isToday(cursor);
+    const MAX_SHOW = 3;
+    const visible = dayOrders.slice(0, MAX_SHOW);
+    const overflow = dayOrders.length - MAX_SHOW;
+
+    cells += `<div class="month-cell${isOther ? ' other-month' : ''}${isTod ? ' today' : ''}">
+      <div class="day-num">${cursor.getDate()}</div>
+      <div class="month-events">
+        ${visible.map(o => renderEventPill(o)).join('')}
+        ${overflow > 0 ? `<div class="more-events" onclick="showMoreOrders('${dk}')">+${overflow} további</div>` : ''}
+      </div>
+    </div>`;
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  document.getElementById('calBody').innerHTML = `
+    <div class="month-grid">
+      <div class="month-header">
+        ${HU_DAYS_MON_S.map(d => `<div class="month-day-header">${d}</div>`).join('')}
+      </div>
+      <div class="month-body">${cells}</div>
+    </div>`;
+}
+
+// ─── WEEK VIEW ───────────────────────────────────────────────────────────────
+
+function renderWeek() {
+  const orders = getOrders();
+  const byDate = buildOrdersByDate(orders);
+
+  // Find Monday of current week
+  const dow = dowMon(currentDate);
+  const monday = new Date(currentDate);
+  monday.setDate(monday.getDate() - dow);
+
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday); d.setDate(d.getDate() + i);
+    days.push(d);
+  }
+
+  const m0 = days[0], m1 = days[6];
+  const titleM0 = HU_MONTHS[m0.getMonth()], titleM1 = HU_MONTHS[m1.getMonth()];
+  const titleStr = m0.getMonth() === m1.getMonth()
+    ? `<span>${titleM0}</span> ${m0.getFullYear()}`
+    : `<span>${titleM0}</span> – <span>${titleM1}</span> ${m1.getFullYear()}`;
+  document.getElementById('calTitle').innerHTML = titleStr;
+
+  // Header
+  const headerCols = days.map(d => {
+    const isTod = isToday(d);
+    return `<div class="week-day-col-header">
+      <div class="week-day-name">${HU_DAYS_MON_S[dowMon(d)]}</div>
+      <div class="week-day-num${isTod ? ' today-num' : ''}">${d.getDate()}</div>
+    </div>`;
+  }).join('');
+
+  // All-day row (orders appear here since they're date-based, not time-based)
+  const allDayCols = days.map(d => {
+    const dk = dateKey(d);
+    const dayOrders = byDate[dk] || [];
+    return `<div class="week-all-day-cell">
+      ${dayOrders.map(o => `
+        <div class="month-event" style="${eventStyle(o.status)}" onclick="openPopup('${o.id}')" title="${o.id}">
+          <span>${statusIcon(o.status)}</span>
+          <span style="overflow:hidden;text-overflow:ellipsis;font-size:0.68rem">${o.id}</span>
+          ${getPdfMeta(o.id).length > 0 ? '<span>📎</span>' : ''}
+        </div>
+      `).join('')}
+    </div>`;
+  }).join('');
+
+  // Event columns (just grid lines for aesthetics — orders shown in all-day row)
+  const hours = [];
+  for (let h = 7; h <= 19; h++) hours.push(h);
+  const timeCells = hours.map(h => `<div class="week-hour-label">${String(h).padStart(2,'0')}:00</div>`).join('');
+  const dayGridCols = days.map(d => {
+    const isTod = isToday(d);
+    return `<div class="week-day-events-col${isTod ? ' today-col' : ''}">
+      ${hours.map(() => `<div class="week-hour-line"></div>`).join('')}
+    </div>`;
+  }).join('');
+
+  document.getElementById('calBody').innerHTML = `
+    <div class="week-grid">
+      <div class="week-header">
+        <div class="week-time-gutter"></div>
+        ${headerCols}
+      </div>
+      <div class="week-all-day-row">
+        <div class="week-all-day-label">Megrendelések</div>
+        ${allDayCols}
+      </div>
+      <div class="week-body">
+        <div class="week-time-col">${timeCells}</div>
+        ${dayGridCols}
+      </div>
+    </div>`;
+}
+
+// ─── DAY VIEW ────────────────────────────────────────────────────────────────
+
+function renderDay() {
+  const orders = getOrders();
+  const byDate = buildOrdersByDate(orders);
+  const dk = dateKey(currentDate);
+  const dayOrders = byDate[dk] || [];
+
+  const dowIdx = dowMon(currentDate);
+  document.getElementById('calTitle').innerHTML =
+    `<span>${HU_DAYS_MON[dowIdx]}</span>, ${currentDate.getFullYear()}. ${HU_MONTHS[currentDate.getMonth()]} ${currentDate.getDate()}.`;
+
+  const orderCards = dayOrders.length
+    ? dayOrders.map(o => {
+        const c = statusColor(o.status);
+        const pdfs = getPdfMeta(o.id);
+        return `<div class="day-order-card" onclick="openPopup('${o.id}')">
+          <div class="day-order-color-bar" style="background:${c}"></div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="font-family:var(--font-mono);font-size:0.9rem;font-weight:700;color:${c}">${o.id}</span>
+              <span class="status-pill" style="--c:${c}"><span class="status-dot"></span>${o.status}</span>
+              ${pdfs.length > 0 ? `<span style="font-size:0.75rem;color:var(--text3)">📎 ${pdfs.length}</span>` : ''}
+            </div>
+            <div style="font-weight:600;font-size:0.9rem;color:var(--text)">${o.customer}</div>
+            <div style="font-size:0.78rem;color:var(--text3);margin-top:2px">
+              ${o.company ? `🏢 ${o.company} · ` : ''}📍 ${o.city} · ${o.type}
+              ${o.deadline ? ` · ⏰ ${o.deadline}. hét` : ''}
+            </div>
+            ${o.note ? `<div style="font-size:0.78rem;color:var(--text2);margin-top:5px;line-height:1.4;max-width:480px">${o.note}</div>` : ''}
+          </div>
+        </div>`;
+      }).join('')
+    : `<div class="empty-state"><div class="empty-icon">📅</div><div>Erre a napra nincs rögzített megrendelés.</div></div>`;
+
+  document.getElementById('calBody').innerHTML = `
+    <div class="day-view-wrap">
+      <div class="day-header">
+        <div class="day-header-num">${currentDate.getDate()}</div>
+        <div class="day-header-info">
+          <div class="day-header-name">${HU_DAYS_MON[dowIdx]}</div>
+          <div class="day-header-date">${currentDate.getFullYear()}. ${HU_MONTHS[currentDate.getMonth()].toLowerCase()}${isToday(currentDate) ? ' · Ma' : ''}</div>
+        </div>
+        <div style="margin-left:auto;font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--text3)">${dayOrders.length} megrendelés</div>
+      </div>
+      <div style="padding:1rem 1.5rem">${orderCards}</div>
+    </div>`;
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+
+function render() {
+  if (currentView === 'month') renderMonth();
+  else if (currentView === 'week') renderWeek();
+  else renderDay();
+}
+
+// ─── POPUP ───────────────────────────────────────────────────────────────────
+
+function openPopup(orderId) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === orderId);
+  if (!o) return;
+
+  document.getElementById('popOrderId').textContent = o.id;
+  document.getElementById('popDate').textContent = formatHuDate(o.date);
+  document.getElementById('popCustomer').textContent = o.customer || '—';
+  document.getElementById('popCompany').textContent = o.company || '—';
+  document.getElementById('popType').textContent = o.type || '—';
+  document.getElementById('popCity').textContent = o.city ? `📍 ${o.city}` : '—';
+  document.getElementById('popDeadline').textContent = o.deadline ? `${o.deadline}. hét` : '—';
+
+  const c = statusColor(o.status);
+  document.getElementById('popStatus').innerHTML = `
+    <span class="status-pill" style="--c:${c}"><span class="status-dot"></span>${o.status}</span>`;
+
+  const noteWrap = document.getElementById('popNoteWrap');
+  if (o.note) {
+    noteWrap.style.display = '';
+    document.getElementById('popNote').textContent = o.note;
+  } else { noteWrap.style.display = 'none'; }
+
+  // PDFs
+  const pdfs = getPdfMeta(orderId);
+  const pdfSection = document.getElementById('popPdfsSection');
+  if (pdfs.length) {
+    pdfSection.style.display = '';
+    document.getElementById('popPdfsList').innerHTML = pdfs.map((pdf, i) => `
+      <div class="pdf-list-item" onclick="openPdfFromPopup('${orderId}', ${i})">
+        <div class="pdf-icon-wrap">📄</div>
+        <div style="flex:1;min-width:0">
+          <div class="pdf-name">${pdf.name}</div>
+          <div class="pdf-size">${formatFileSize(pdf.size)}</div>
+        </div>
+        <span style="color:var(--orange);font-size:1rem">›</span>
+      </div>
+    `).join('');
+  } else { pdfSection.style.display = 'none'; }
+
+  document.getElementById('popupOverlay').classList.add('open');
+}
+
+function closePopup() {
+  document.getElementById('popupOverlay').classList.remove('open');
+}
+
+function closePopupOnOverlay(e) {
+  if (e.target === e.currentTarget) closePopup();
+}
+
+async function openPdfFromPopup(orderId, index) {
+  const pdfs = getPdfMeta(orderId);
+  const pdf = pdfs[index];
+  if (!pdf) return;
+
+  document.getElementById('pdfViewerTitle').textContent = pdf.name;
+  document.getElementById('pdfFrame').src = '';
+  document.getElementById('pdfViewerOverlay').classList.add('open');
+
+  let dataUrl = pdf.data || null;
+
+  if (!dataUrl && pdf.path) {
+    try {
+      const cleanPath = pdf.path.replace(/[^a-zA-Z0-9/_.()-]/g, '_');
+      const encodedPath = cleanPath.split('/').map(encodeURIComponent).join('/');
+      const url = `${SB_URL}/storage/v1/object/sign/${SB_BUCKET}/${encodedPath}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { ...SB_STORAGE_HDR, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ expiresIn: 3600 }),
+      });
+      if (!res.ok) throw new Error('Sign failed');
+      const data = await res.json();
+      const signedUrl = `${SB_URL}/storage/v1${data.signedURL}`;
+      document.getElementById('pdfFrame').src = signedUrl;
+    } catch(e) {
+      document.getElementById('pdfFrame').src = 'about:blank';
+      alert('PDF betöltési hiba: ' + e.message);
+    }
+    return;
+  }
+
+  if (dataUrl) {
+    document.getElementById('pdfFrame').src = dataUrl;
+  }
+}
+
+function closePdfViewer() {
+  document.getElementById('pdfViewerOverlay').classList.remove('open');
+  document.getElementById('pdfFrame').src = '';
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+
+function formatFileSize(bytes) {
+  if (!bytes) return '—';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1048576).toFixed(1) + ' MB';
+}
+
+function showMoreOrders(dateKey) {
+  // Navigate to day view for that date
+  const [y, m, d] = dateKey.split('-').map(Number);
+  currentDate = new Date(y, m-1, d);
+  setView('day');
+}
+
+// ─── KEYBOARD ────────────────────────────────────────────────────────────────
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('pdfViewerOverlay').classList.contains('open')) { closePdfViewer(); return; }
+    if (document.getElementById('popupOverlay').classList.contains('open')) { closePopup(); return; }
+  }
+  if (e.key === 'ArrowLeft' && !e.target.closest('input,textarea')) navPrev();
+  if (e.key === 'ArrowRight' && !e.target.closest('input,textarea')) navNext();
+});
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+render();
+
+// Auto-refresh every 30s to pick up new orders from main app
+setInterval(() => {
+  STATUSES = JSON.parse(localStorage.getItem('mb_statuses') || 'null') || DEFAULT_STATUSES;
+  render();
+}, 30000);
+</script>
+</body>
+</html>
